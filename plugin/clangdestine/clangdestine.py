@@ -3,7 +3,10 @@ from os import path
 import vim
 import yaml
 
-def find_clang_format_file(directory):
+
+def find_clang_format_file(directory=None):
+    if directory is None:
+        directory = vim.eval("expand('%:p')")
     f = path.join(directory, ".clang-format")
     if path.exists(f) and path.isfile(f):
         return f
@@ -13,13 +16,33 @@ def find_clang_format_file(directory):
     return None
 
 
+def get_defined_format_file(variable_name):
+    exists = vim.eval("exists('%s')" % variable_name)
+    if int(exists):
+        f = vim.eval(variable_name)
+        if f:
+            return f
+    return None
+
+
+def get_global_defined_format_file():
+    return get_defined_format_file("g:clangdestine_format_file")
+
+
+def get_buffer_defined_format_file():
+    return get_defined_format_file("b:clangdestine_format_file")
+
+
 def get_clang_format_file():
-    try:
-        f = vim.eval("b:clang_format_file")
-    except:
-        directory = vim.eval("expand('%:p')")
-        f = find_clang_format_file(directory)
-    return f
+    b = get_buffer_defined_format_file()
+    if b is not None:
+        return b
+
+    g = get_global_defined_format_file()
+    if g is not None:
+        return g
+
+    return find_clang_format_file()
 
 
 def get_format():

@@ -1,3 +1,12 @@
+" clangdestine.vim - Automatically set cinoptions from clang-format file
+" Maintainer:   León Illanes <https://gitlab.com/lillanes/>
+" Version:      0.0.1
+
+if exists("g:loaded_clangdestine")
+    finish
+endif
+let g:loaded_clangdestine = 1
+
 if has('python3')
     let s:python = 'python3 << endPython'
     let s:using_python3 = 1
@@ -35,5 +44,9 @@ exe s:python
 clangdestine.update_cinoptions(plugin_path)
 endPython
 endfun
+
+if !exists("g:clangdestine_format_file")
+    let g:clangdestine_format_file = ""
+endif
 
 autocmd FileType cpp call s:UpdateCinoptions()

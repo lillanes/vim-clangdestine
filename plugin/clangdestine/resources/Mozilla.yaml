@@ -1,0 +1,7 @@
+AccessModifierOffset                    : -2
+AlignAfterOpenBracket                   : Align
+ConstructorInitializerIndentWidth       : 2
+ContinuationIndentWidth                 : 2
+IndentCaseLabels                        : true
+IndentWidth                             : 2
+NamespaceIndentation                    : None

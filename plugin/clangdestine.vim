@@ -22,8 +22,8 @@ for path in vim.eval("&runtimepath").split(","):
             lib_dir = "lib3"
         else:
             lib_dir = "lib"
-        yaml_path = os.path.join(path, "third_party", "pyyaml", lib_dir)
-        sys.path.append(yaml_path)
+        libyaml_path = os.path.join(path, "third_party", "pyyaml", lib_dir)
+        sys.path.append(libyaml_path)
         break
 
 import clangdestine
@@ -32,7 +32,7 @@ endPython
 
 fun s:UpdateCinoptions()
 exe s:python
-clangdestine.update_cinoptions()
+clangdestine.update_cinoptions(plugin_path)
 endPython
 endfun
 

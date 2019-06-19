@@ -29,20 +29,13 @@ def get_format():
 
 
 FALLBACK_STYLE = 'LLVM'
-def get_defaults(named_style):
-    # FIXME should do this and not return something fixed:
-    # if named_style is None:
-    #     named_style = FALLBACK_STYLE
-    # with open("%s.yaml" % named_style) as style:
-    #     return yaml.load(style, Loader=yaml.loader)
-    return {'AccessModifierOffset': 0,
-            'AlignAfterOpenBracket': True,
-            'ContinuationIndentWidth': 4,
-            'ConstructorInitializerIndentWidth': 4,
-            'IndentCaseLabels': False,
-            'IndentWidth': 2,
-            'NamespaceIndentation': 'None',
-            }
+def get_defaults(named_style, plugin_path):
+    if named_style is None:
+        named_style = FALLBACK_STYLE
+    style_filename = path.join(plugin_path, "clangdestine", "resources",
+            "%s.yaml" % named_style)
+    with open(style_filename) as style_file:
+        return yaml.load(style_file, Loader=yaml.Loader)
 
 
 def get_value_or_default(item, format_data, default_values):
@@ -63,12 +56,21 @@ def access_modifier_offset(format_data, default_values):
 def align_after_open_bracket(format_data, default_values):
     value = get_value_or_default('AlignAfterOpenBracket', format_data,
             default_values)
-    if value:
+    if value == "Align":
         return "(0"
+    elif value == "DontAlign" or value == "AlwaysBreak":
+        indent = get_value_or_default('ContinuationIndentWidth', format_data,
+                default_values)
+        return "(%d" % indent
+    else:
+        assert False, ("AlignAfterOpenBracket value of '%s' is unrecognized "
+                       "(should be 'Align', 'DontAlign', or "
+                       "'AlwaysBreak').") % value
 
-    indent = get_value_or_default('ContinuationIndentWidth', format_data,
-            default_values)
-    return "(%d" % indent
+
+# FIXME
+def break_before_braces(format_data, default_values):
+    pass
 
 
 def construction_initializer_indent_width(format_data, default_values):
@@ -115,17 +117,18 @@ def namespace_indentation(format_data, default_values):
                        "(should be 'None', 'Inner', or 'All').") % value
 
 
-def update_cinoptions():
+def update_cinoptions(plugin_path):
     format_data = get_format()
 
     if 'BasedOnStyle' in format_data:
-        default_values = get_defaults(format_data['BasedOnStyle'])
+        default_values = get_defaults(format_data['BasedOnStyle'], plugin_path)
     else:
-        default_values = get_defaults(None)
+        default_values = get_defaults(None, plugin_path)
 
     translations = [
             access_modifier_offset,
             align_after_open_bracket,
+            # break_before_braces,
             construction_initializer_indent_width,
             continuation_indent_width,
             indent_case_labels,

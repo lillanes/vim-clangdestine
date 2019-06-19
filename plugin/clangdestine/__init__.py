@@ -1,1 +1,1 @@
-from .clangdestine import set_clang_format_file
+from .clangdestine import update_cinoptions

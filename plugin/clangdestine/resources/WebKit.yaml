@@ -1,5 +1,8 @@
 AccessModifierOffset                    : -4
 AlignAfterOpenBracket                   : DontAlign
+BreakBeforeBraces                       : WebKit
+BraceWrapping:
+    IndentBraces: false
 ConstructorInitializerIndentWidth       : 4
 ContinuationIndentWidth                 : 4
 IndentCaseLabels                        : false

@@ -68,9 +68,29 @@ def align_after_open_bracket(format_data, default_values):
                        "'AlwaysBreak').") % value
 
 
-# FIXME
 def break_before_braces(format_data, default_values):
-    pass
+    value = get_value_or_default('BreakBeforeBraces', format_data,
+            default_values)
+
+    if value in ["Attach", "Linux", "Mozilla", "Stroustrup", "Allman",
+            "WebKit"]:
+        return None
+    elif value == "GNU":
+        # Can't actually do this one, as brace indentation is different for
+        # classes or functions vs control blocks.
+        return None
+    elif value == "Custom":
+        braces = get_value_or_default('BraceWrapping', format_data,
+                default_values)
+        if braces['IndentBraces']:
+            indent = get_value_or_default('IndentWidth', format_data,
+                    default_values)
+            return "f%d,{%d" % (indent, indent)
+        return None
+    else:
+        assert False, ("BreakBeforeBraces value of '%s' is unrecognized "
+                "(should be 'Attach', 'Linux', 'Mozilla', 'Stroustrup', "
+                "'Allman', 'WebKit', 'GNU', or 'Custom')") % value
 
 
 def construction_initializer_indent_width(format_data, default_values):
@@ -128,7 +148,7 @@ def update_cinoptions(plugin_path):
     translations = [
             access_modifier_offset,
             align_after_open_bracket,
-            # break_before_braces,
+            break_before_braces,
             construction_initializer_indent_width,
             continuation_indent_width,
             indent_case_labels,

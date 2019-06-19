@@ -137,6 +137,6 @@ def update_cinoptions(plugin_path):
             ]
 
     cinoptions = [f(format_data, default_values) for f in translations]
-    cinoptions = ",".join(cinoptions)
+    cinoptions = ",".join([o for o in cinoptions if o is not None])
 
     vim.command("set cinoptions=%s" % cinoptions)

@@ -47,6 +47,8 @@ def get_clang_format_file():
 
 def get_format():
     format_filename = get_clang_format_file()
+    if format_filename is None:
+        return None
     with open(format_filename) as format_file:
         return yaml.load(format_file, Loader=yaml.Loader)
 
@@ -162,6 +164,9 @@ def namespace_indentation(format_data, default_values):
 
 def update_cinoptions(plugin_path):
     format_data = get_format()
+
+    if format_data is None:
+        return
 
     if 'BasedOnStyle' in format_data:
         default_values = get_defaults(format_data['BasedOnStyle'], plugin_path)

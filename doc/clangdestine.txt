@@ -39,5 +39,13 @@ or:
 >
   let b:clangdestine_format_file = `/path/to/file`
 <
+The plugin can be disabled globally with:
+>
+  let g:clangdestine_disabled = 1
+<
+or for a single buffer:
+>
+  let b:clangdestine_disabled = 1
+<
 =============================================================================
 vim:tw=78:ts=8:ft=help:

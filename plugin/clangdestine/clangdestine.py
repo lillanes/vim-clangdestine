@@ -16,30 +16,28 @@ def find_clang_format_file(directory=None):
     return None
 
 
-def get_defined_format_file(variable_name):
+def get_vim_variable(variable_name):
     exists = vim.eval("exists('%s')" % variable_name)
     if int(exists):
-        f = vim.eval(variable_name)
-        if f:
-            return f
-    return None
+        value = vim.eval(variable_name)
+        return value
 
 
 def get_global_defined_format_file():
-    return get_defined_format_file("g:clangdestine_format_file")
+    return get_vim_variable("g:clangdestine_format_file")
 
 
 def get_buffer_defined_format_file():
-    return get_defined_format_file("b:clangdestine_format_file")
+    return get_vim_variable("b:clangdestine_format_file")
 
 
 def get_clang_format_file():
     b = get_buffer_defined_format_file()
-    if b is not None:
+    if b:
         return b
 
     g = get_global_defined_format_file()
-    if g is not None:
+    if g:
         return g
 
     return find_clang_format_file()
@@ -162,7 +160,16 @@ def namespace_indentation(format_data, default_values):
                        "(should be 'None', 'Inner', or 'All').") % value
 
 
+def disabled():
+    flag = get_vim_variable("g:clangdestine_disabled") \
+            or get_vim_variable("b:clangdestine_disabled")
+    return flag
+
+
 def update_cinoptions(plugin_path):
+    if disabled():
+        return
+
     format_data = get_format()
 
     if format_data is None:

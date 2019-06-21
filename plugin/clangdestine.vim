@@ -49,4 +49,4 @@ if !exists("g:clangdestine_format_file")
     let g:clangdestine_format_file = ""
 endif
 
-autocmd FileType cpp call s:UpdateCinoptions()
+autocmd FileType c,cpp call s:UpdateCinoptions()

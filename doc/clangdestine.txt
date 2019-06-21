@@ -29,8 +29,16 @@ This plugin automatically generates 'cinoptions' based on the values available
 on a Clang format style file. The plugin searches for the file upwards through
 the file hierarchy, starting in the same directory as the file being edited.
 
-SETTINGS                                               *clangdestine-settings*
+USAGE AND SETTINGS
+                                                *ClangdestineUpdateCinoptions*
+The 'cinoptions' string is automatically updated for any buffer with C++ or C
+filetypes (cpp or c). You can force an update with:
+>
+  :ClangdestineUpdateCinoptions
+<
 
+                                                  *g:clangdestine_format_file*
+                                                  *b:clangdestine_format_file*
 An alternative clang format file can be selected with:
 >
   let g:clangdestine_format_file = `/path/to/file`
@@ -39,6 +47,8 @@ or:
 >
   let b:clangdestine_format_file = `/path/to/file`
 <
+                                                     *g:clangdestine_disabled*
+                                                     *b:clangdestine_disabled*
 The plugin can be disabled globally with:
 >
   let g:clangdestine_disabled = 1

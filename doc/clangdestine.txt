@@ -2,7 +2,7 @@
 
 Author:         León Illanes
 Version:        0.0.1
-Repo:           https://gitlab.com/lillanes/vim-clangdestine
+Repo:           https://github.com/lillanes/vim-clangdestine
 License:        MIT License {{{
     Permission is hereby granted, free of charge, to any person obtaining a
     copy of this software and associated documentation files (the "Software"),

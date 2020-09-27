@@ -72,7 +72,7 @@ def access_modifier_offset(format_data, default_values):
             default_values)
     indent = get_value_or_default('IndentWidth', format_data, default_values)
 
-    vim_offset = offset + indent
+    vim_offset = int(offset) + int(indent)
     return "g%d" % vim_offset
 
 
@@ -84,7 +84,7 @@ def align_after_open_bracket(format_data, default_values):
     elif value == "DontAlign" or value == "AlwaysBreak":
         indent = get_value_or_default('ContinuationIndentWidth', format_data,
                 default_values)
-        return "(%d" % indent
+        return "(%d" % int(indent)
     else:
         assert False, ("AlignAfterOpenBracket value of '%s' is unrecognized "
                        "(should be 'Align', 'DontAlign', or "
@@ -108,6 +108,7 @@ def break_before_braces(format_data, default_values):
         if braces['IndentBraces']:
             indent = get_value_or_default('IndentWidth', format_data,
                     default_values)
+            indent = int(indent)
             return "f%d,{%d" % (indent, indent)
         return None
     else:
@@ -119,13 +120,13 @@ def break_before_braces(format_data, default_values):
 def construction_initializer_indent_width(format_data, default_values):
     value = get_value_or_default('ConstructorInitializerIndentWidth',
             format_data, default_values)
-    return "i%d" % value
+    return "i%d" % int(value)
 
 
 def continuation_indent_width(format_data, default_values):
     value = get_value_or_default('ContinuationIndentWidth', format_data,
             default_values)
-    return "+%d" % value
+    return "+%d" % int(value)
 
 
 def indent_case_labels(format_data, default_values):
@@ -134,13 +135,13 @@ def indent_case_labels(format_data, default_values):
     if value:
         indent = get_value_or_default('IndentWidth', format_data,
                 default_values)
-        return ":%d,l1" % indent
+        return ":%d,l1" % int(indent)
     return ":0,l1"
 
 
 def indent_width(format_data, default_values):
     value = get_value_or_default('IndentWidth', format_data, default_values)
-    return ">%d" % value
+    return ">%d" % int(value)
 
 
 def namespace_indentation(format_data, default_values):
@@ -150,7 +151,7 @@ def namespace_indentation(format_data, default_values):
     if value == "None":
         indent = get_value_or_default('IndentWidth', format_data,
                 default_values)
-        return "N-%d" % indent
+        return "N-%d" % int(indent)
     elif value == "Inner":
         pass
     elif value == "All":
